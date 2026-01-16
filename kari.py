@@ -511,7 +511,7 @@ class Kari:
                 irc_conn = bridge.irc_channel.server.conn
                 irc_channel_name = bridge.irc_channel.name
 
-            if subtype in ('message_replied', 'thread_broadcast', None):
+            if subtype in ('message_replied', 'thread_broadcast', 'file_share', None):
                 # Normal message
 
                 # TODO: For non-broadcast replies, fetch the other replies from Slack, they aren't sent with this message any more
@@ -528,7 +528,8 @@ class Kari:
 
                 # Slack only provides 'root' for a thread broadcast message and
                 # provides nothing for message replies, so that sucks.
-                if 'root' in msg:
+                # Also, don't quotepost for the specific case of the internal pshuu mirror.
+                if 'root' in msg and msg.get('username') != 'pshuu_mirror':
                     root = msg['root']
                     if 'type' in root and root['type'] == 'message':
                         quoting_format = get_quoting_format(root.get('subtype'))
