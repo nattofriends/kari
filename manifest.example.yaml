@@ -11,6 +11,7 @@ oauth_config:
       - channels:write.topic
       - chat:write
       - chat:write.customize
+      - files:read
       - users:read
       - users:write
 settings:
